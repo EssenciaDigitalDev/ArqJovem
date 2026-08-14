@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="DNJ 2026 — Dia Nacional da Juventude | Arquidiocese de Cuiabá">
+  <title>DNJ 2026 | Arquidiocese de Cuiabá</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #e9a91b;
+      --gold-light: #ffd96a;
+      --cream: #fff8df;
+      --black: #070707;
+      --card: rgba(255,255,255,.075);
+      --line: rgba(255,215,110,.22);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      color: #fff;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 5%, rgba(238,174,34,.28), transparent 28%),
+        radial-gradient(circle at 10% 45%, rgba(255,210,82,.10), transparent 25%),
+        radial-gradient(circle at 90% 75%, rgba(255,186,35,.08), transparent 28%),
+        linear-gradient(145deg, #050505 0%, #14110a 42%, #050505 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .ambient {
+      position: fixed;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: rgba(237, 174, 33, .12);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      transition: left .25s ease-out, top .25s ease-out;
+    }
+
+    .wrap {
+      width: min(100% - 32px, 540px);
+      margin: 0 auto;
+      padding: 34px 0 42px;
+    }
+
+    .hero {
+      text-align: center;
+      perspective: 1200px;
+      animation: reveal .9s ease both;
+    }
+
+    .brand-mark {
+      width: min(68vw, 275px);
+      margin: 0 auto 2px;
+      filter:
+        drop-shadow(0 0 18px rgba(241,177,27,.26))
+        drop-shadow(0 22px 28px rgba(0,0,0,.65));
+      transform: translateZ(35px);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .brand-mark img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .dnj-logo {
+      width: min(86vw, 210px);
+      margin: -12px auto 3px;
+      position: relative;
+      filter: drop-shadow(0 16px 22px rgba(0,0,0,.7));
+    }
+
+    .dnj-logo img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,215,110,.23);
+      border-radius: 999px;
+      background: rgba(255,255,255,.045);
+      backdrop-filter: blur(12px);
+      color: var(--gold-light);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px rgba(255,255,255,.08), 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold);
+    }
+
+    .headline {
+      margin: 18px auto 8px;
+      max-width: 500px;
+      font-size: clamp(1.45rem, 6vw, 2rem);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+      font-weight: 850;
+    }
+
+    .headline span {
+      background: linear-gradient(100deg, #fff, #ffe18a 48%, #e6a21b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,.68);
+      font-size: .94rem;
+      line-height: 1.55;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .theme {
+      margin: 18px auto 26px;
+      padding: 15px 18px;
+      max-width: 500px;
+      border-left: 2px solid var(--gold);
+      background: linear-gradient(90deg, rgba(233,169,27,.12), rgba(255,255,255,.025));
+      border-radius: 0 16px 16px 0;
+      text-align: left;
+      box-shadow: inset 0 1px rgba(255,255,255,.04);
+    }
+
+    .theme strong {
+      display: block;
+      color: #ffe39a;
+      font-size: .86rem;
+      letter-spacing: .02em;
+    }
+
+    .theme small {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255,255,255,.56);
+      font-size: .76rem;
+    }
+
+    .links {
+      display: grid;
+      gap: 15px;
+      margin-top: 4px;
+    }
+
+    .link-card {
+      --rx: 0deg;
+      --ry: 0deg;
+      --lift: 0px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 78px;
+      padding: 13px 17px;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.035)),
+        rgba(10,10,10,.48);
+      box-shadow:
+        0 18px 36px rgba(0,0,0,.36),
+        inset 0 1px rgba(255,255,255,.13),
+        inset 0 -1px rgba(0,0,0,.4);
+      backdrop-filter: blur(18px) saturate(125%);
+      transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+      transform-style: preserve-3d;
+      transition: transform .18s ease, border-color .25s ease, box-shadow .25s ease;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .link-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,214,98,.18), transparent 36%);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .link-card::after {
+      content: "";
+      position: absolute;
+      top: -70%;
+      left: -35%;
+      width: 34%;
+      height: 240%;
+      transform: rotate(20deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      transition: left .65s ease;
+      pointer-events: none;
+    }
+
+    .link-card:hover {
+      --lift: -6px;
+      border-color: rgba(255,218,113,.55);
+      box-shadow:
+        0 25px 45px rgba(0,0,0,.46),
+        0 0 30px rgba(231,165,22,.08),
+        inset 0 1px rgba(255,255,255,.17);
+    }
+
+    .link-card:hover::before { opacity: 1; }
+    .link-card:hover::after { left: 125%; }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: #181106;
+      background: linear-gradient(145deg, #ffe28a, #e5a21a);
+      box-shadow:
+        inset 0 1px rgba(255,255,255,.65),
+        inset 0 -4px 8px rgba(96,57,0,.22),
+        0 9px 18px rgba(0,0,0,.28);
+      transform: translateZ(24px);
+    }
+
+    .icon svg { width: 23px; height: 23px; stroke: currentColor; }
+
+    .copy {
+      min-width: 0;
+      padding: 0 13px;
+      transform: translateZ(20px);
+    }
+
+    .copy strong {
+      display: block;
+      font-size: .98rem;
+      letter-spacing: -.01em;
+    }
+
+    .copy span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255,255,255,.55);
+      font-size: .75rem;
+      line-height: 1.3;
+    }
+
+    .arrow {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #ffe59b;
+      border: 1px solid rgba(255,215,110,.18);
+      background: rgba(255,255,255,.045);
+      transform: translateZ(27px);
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .link-card:hover .arrow {
+      transform: translateZ(27px) translateX(4px);
+      background: rgba(233,169,27,.13);
+    }
+
+    .social {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 23px;
+    }
+
+    .social a {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: rgba(255,255,255,.75);
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.04);
+      transition: .25s ease;
+    }
+
+    .social a:hover {
+      color: #ffe29a;
+      border-color: rgba(255,215,110,.38);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,.3);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 27px;
+      color: rgba(255,255,255,.35);
+      font-size: .68rem;
+      line-height: 1.6;
+    }
+
+    .particle {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #ffd96a;
+      box-shadow: 0 0 12px rgba(255,208,77,.7);
+      pointer-events: none;
+      opacity: .35;
+      animation: drift linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-.5deg); }
+      50% { transform: translateY(-7px) rotate(.5deg); }
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes drift {
+      from { transform: translateY(110vh) translateX(0); }
+      to { transform: translateY(-15vh) translateX(70px); }
+    }
+
+    @media (max-width: 430px) {
+      .wrap { width: min(100% - 22px, 540px); padding-top: 22px; }
+      .brand-mark { width: min(64vw, 235px); }
+      .dnj-logo { width: min(92vw, 380px); }
+      .headline { margin-top: 13px; }
+      .link-card { min-height: 74px; padding: 11px 13px; border-radius: 18px; }
+      .icon { width: 44px; height: 44px; flex-basis: 44px; border-radius: 13px; }
+      .copy { padding: 0 10px; }
+      .copy strong { font-size: .92rem; }
+      .copy span { font-size: .7rem; }
+      .arrow { width: 31px; height: 31px; flex-basis: 31px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient" id="ambient"></div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="brand-mark">
+        <img src="logo.png" alt="Símbolo da juventude e da cruz">
+        </div>
+
+      <div class="dnj-logo">
+        <img src="dnj.png" alt="DNJ 2026">
+       </div>
+
+      <div class="eyebrow">Arquidiocese de Cuiabá</div>
+
+      <h1 class="headline">“Vai, jovem, e reconstrói  <span>a minha Igreja.”</span></h1>
+
+      <p class="subtitle">
+        DNJ 2026 · O zelo por tua casa me consumirá — Jo 2,17
+      </p>
+
+      
+    </section>
+
+    <section class="links" aria-label="Links principais">
+      <a class="link-card" href="https://docs.google.com/forms/d/e/1FAIpQLScuiJ_FUYYca1XWodJ8_CsEfHnrOIHAlsB-vk7TmbOhibs3qA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+        </div>
+        <div class="copy">
+          <strong>Inscrições DNJ 2026</strong>
+          <span>Garanta sua participação no DNJ</span>
+        </div>
+        <div class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="17" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h13"></path><path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </div>
+      </a>
+
+     <a class="link-card" href="https://drive.google.com/drive/folders/1-0O9mcxa44yY0evFPQQya0sVHqcHcF1H?usp=drive_link" target="_blank" rel="noopener noreferrer">
+        <div class="icon drive-icon" aria-hidden="true">
+         <svg viewBox="0 0 48 48" width="27" height="27">
+          <path fill="#0F9D58" d="M17 6h10l15 26H32L17 6z"/>
+          <path fill="#F4B400" d="M17 6 4 29l5 9 13-23-5-9z"/>
+          <path fill="#4285F4" d="M9 38h28l5-6H13l-4 6z"/>
+         </svg>
+        </div>
+        <div class="copy">
+          <strong>Regulamento dos desafios</strong>
+          <span>Acesso o drive</span>
+        </div>
+        <div class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="17" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h13"></path><path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://wa.me/5565996833769?text=Ol%C3%A1%21+Tenho+d%C3%BAvidas+sobre+os+desafios+do+DNJ+2026&utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M20 11.5a8 8 0 0 1-11.9 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z"></path>
+            <path d="M8.5 9.5c.3 1.8 2.2 4 4 4.4.7.2 1.3-.2 1.8-.8"></path>
+          </svg>
+        </div>
+        <div class="copy">
+          <strong>Dúvidas sobre os desafios</strong>
+          <span>Fale conosco pelo WhatsApp</span>
+        </div>
+        <div class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="17" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h13"></path><path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </div>
+      </a>
+    </section>
+
+    <div class="social" aria-label="Redes sociais">
+      <a href="https://arquidiocesecuiaba.org.br/" target="_blank" rel="noopener noreferrer" aria-label="Site da Arquidiocese de Cuiabá" title="Arquidiocese de Cuiabá">
+        <svg viewBox="0 0 24 24" width="19" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path>
+          <path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path>
+        </svg>
+      </a>
+    </div>
+
+    <footer>
+      DNJ 2026 · Arquidiocese de Cuiabá<br>
+      Juventude em missão. Fé que se transforma em ação.
+      feito por <a href="https://essenciadigitaldev.github.io/Portif-lio/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAac9_umVJwGuyZrre8zBiSI7WSBaTMJivAwMrzyWPZJNi76hUyaAyv9cLuKs4A_aem_613pRn0-ppQsm1nJRWIcfQ">EssenciaDigital</a>
+    </footer>
+  </main>
+
+  <script>
+    // Luz ambiente que acompanha o mouse
+    const ambient = document.getElementById('ambient');
+
+    window.addEventListener('pointermove', (e) => {
+      ambient.style.left = e.clientX + 'px';
+      ambient.style.top = e.clientY + 'px';
+    }, { passive: true });
+
+    // Efeito 3D individual nos botões
+    document.querySelectorAll('.link-card').forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const px = x / rect.width;
+        const py = y / rect.height;
+
+        const ry = (px - .5) * 9;
+        const rx = (py - .5) * -9;
+
+        card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+        card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      });
+
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--mx', '50%');
+        card.style.setProperty('--my', '50%');
+      });
+    });
+
+    // Partículas douradas discretas
+    const particleCount = window.innerWidth < 600 ? 18 : 28;
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('span');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (10 + Math.random() * 18) + 's';
+      p.style.animationDelay = (-Math.random() * 20) + 's';
+      p.style.opacity = (.15 + Math.random() * .35).toFixed(2);
+      p.style.transform = `scale(${.5 + Math.random() * 1.5})`;
+      document.body.appendChild(p);
+    }
+  </script>
+</body>
+</html>
